@@ -6,6 +6,7 @@ ENV LoopHookCMD=""
 WORKDIR /meshviewer
 
 EXPOSE 80
+EXPOSE 81
 
 RUN apt update && apt install -y --no-install-recommends \
     nginx \
