@@ -1,4 +1,4 @@
-FROM node:slim
+FROM node:12-slim
 
 ENV MeshviewerRepo="https://github.com/ffrgb/meshviewer.git --branch develop"
 ENV LoopHookCMD=""
