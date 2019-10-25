@@ -7,9 +7,12 @@ WORKDIR /meshviewer
 
 EXPOSE 80
 
-RUN apt update && apt install -y --no-install-recommends \
-    nginx \
-    git
+RUN apt update \
+        && apt install -y --no-install-recommends \
+               nginx \
+               git
+
+COPY nginx-site.default /etc/nginx/sites-available/default
 
 CMD rm -rf /var/www/html/* ; \
     mkdir -p /var/www/html/data ; \

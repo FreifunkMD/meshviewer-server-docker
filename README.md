@@ -1,18 +1,20 @@
 # Generischer "All in One" Meshviewer-Server 
 ## Allgemein
-Durch das Dockerfile wird ein generischer "All in One" Meshviewer-Server bereitgestellt (Build- wie auch Web-Server).
+Durch das Dockerfile wird ein generischer "All in One" Meshviewer-Server bereitgestellt (Map Build-Server,  Web-Server und ggf. ein Tiles-Proxy).
 
 Der Container stellt in der Default-Konfiguration die Regensburger Map bereit.  
 
-Durch einen individuell angepassten Docker-Aufruf kann jedoch jeglicher Fork des [Regensburger Meshviewer-GitRepos](https://github.com/ffrgb/meshviewer) verwendet werden.  
+Durch einen individuell angepassten Docker-Aufruf kann jedoch jeglicher Clone des [Regensburger Meshviewer-GitRepos](https://github.com/ffrgb/meshviewer) eingebunden werden.  
 
-Der Container aktualisiert bei jedem Start per `apt` alle System-Packages. Gefolgt wird ein Meshviewer-GitRepo in das Verzeichnis `/meshviewer` geklont. Mit `yarn gulp` wird der Meshviewer gebaut und über einen Webserver (nginx) per http-Webseite bereitgestellt.
+Der Container aktualisiert bei jedem Start per `apt` alle System-Packages. Gefolgt wird ein Meshviewer-GitRepo in das Container-interne Verzeichnis `/meshviewer` geklont. Mit `yarn gulp` wird der Meshviewer automatisch gebaut und über einen Webserver (nginx) bereitgestellt. Es handelt sich um einen reinen Wegwerf-Container. Es werden keine Mounts oder Volumes verwendet.
 
-Der Meshviewer-Server sollte immer hinter einem Reverse-Proxy angesiedelt sein.
+Der Container kann zusätzlich als Tiles-Server verwendet werden. Der Container wird dann als Proxy für Tiles eines Servers von OpenStreetMap.org verwendet. In diesem Fall sind die [Nutzungsvoraussetzungen von OpenStreetMap](https://wiki.openstreetmap.org/wiki/DE:Tile_usage_policy) einzuhalten.
+
+Der Meshviewer-Server liefert seinen Content über HTTP aus un sollte immer hinter einem Reverse-Proxy betrieben werden.  
 
 ## Docker-Umgebungsvariablen
 Die default Dockerfile-Umgebungsvariablen sind für die Regensburger Map ausgelegt.  
-Die Umgebungsvariablen können jedoch bei dem Starten des Docker-Containers individuell mittels `--env` angepasst werden.
+Die Umgebungsvariablen können jedoch bei dem Starten des Docker-Containers individuell mittels `--env` angepasst werden (siehe Magdeburger Anwendungsbeispiele weiter unten).
 
 - `MeshviewerRepo = "https://github.com/ffrgb/meshviewer.git --branch develop"`  
 In der Docker-Umgebungsvariable `MeshviewerRepo` wird der Link zu dem Git-Repo angegeben, in welchem der zu verwendende Meshviewer enthalten ist. Optional kann der zu nutzende Git-Branch mit angegeben werden.
@@ -23,6 +25,18 @@ Innerhalb dieser Schleife wird der Hook-Befehl aus der Docker-Umgebungsvariable 
 Mittels `LoopHookCMD` könnte z.B. die `meshviewer.json` eigenständig und zyklisch selber durch den Meshviewer-Server geladen und in dem Ordner `/var/www/html/data/` abgelegt werden. Der Meshviewer-Server könnte dann alleinig allen Content aus einer Hand ausliefern.  
 Hierdurch erspart man sich, wegen CORS-Fehlern, zusätzlichen Konfigurationsaufwand bezüglich Access-Control-Allow-Origin beim Reverse-Proxy.
 
+## Tiles-Proxy
+ - Soll der Container als Tiles-Proxy der OpenStreetMap.org-Server fungieren, dann muß in der meshviewer-Konfiguration für den Tiles-Server-Link folgender Eintrag verwendet werden:
+
+```
+'mapLayers': [
+   {
+   ...
+   "url": "/tiles-cache/{z}/{x}/{y}.png"
+   ...
+   }
+```
+ - Die Tiles-Server von OpenStreetMap.org werden intern über HTTP (nicht HTTPS) angesprochen.
 
 ## Anwenden
 ### Image lokal bauen
@@ -32,7 +46,7 @@ Hierdurch erspart man sich, wegen CORS-Fehlern, zusätzlichen Konfigurationsaufw
 ### Container ausführen
 
 #### Beispiel: Regensburger Map (default)
-Ausführen des Containers, mit Verwendung von Port 8080, durch:
+- Ausführen des lokal gebauten Containers, mit Verwendung von Port 8080, durch:
 
 ```
 docker run --name meshviewer-server \
@@ -42,7 +56,7 @@ docker run --name meshviewer-server \
            meshviewer-server
 ```
 
-oder per Docker Hub:
+- Oder Ausführen des auf Docker Hub bereitgestellten Containers, mit Verwendung von Port 8080, durch:
 
 ```
 docker run --name meshviewer-server \
@@ -53,10 +67,10 @@ docker run --name meshviewer-server \
 ```
 
 Achtung:  
-Bei der Regensburger Demo ist der Zugriff auf den verwendeten Tiles-Server gesperrt.
+Bei der Regensburger Demo ist der Zugriff auf die Regensburger Tiles-Server gesperrt.
 
 #### Beispiel: Magdeburger Babel Map (individuell)
-Ausführen des Containers, mit Verwendung von Port 8080, durch:
+- Ausführen des lokal gebauten Containers, mit Verwendung von Port 8080, durch:
 
 ```
 docker run --name meshviewer-server \
@@ -69,7 +83,7 @@ docker run --name meshviewer-server \
            meshviewer-server
 ```
 
-oder per Docker Hub:
+- Oder ausführen des auf Docker Hub bereitgestellten Containers, mit Verwendung von Port 8080, durch:
 
 ```
 docker run --name meshviewer-server \
@@ -86,11 +100,13 @@ docker run --name meshviewer-server \
 Nach dem Start ca. 1-2 Minuten warten und dann die Map durch einen Browser-Aufruf von http://xyz:8080 oder http://localhost:8080 anzeigen lassen.
 
 ## Sonstiges
-Workdir: /meshviewer  
-Interner Port: 80  
-Webdir: /var/www/html  
-Node.js: v12  
-OS: Debian Buster
+
+- OS: Debian Buster  
+- Node.js: v12  
+- Intern genutzter Port: 80  
+- Workdir: /meshviewer  
+- Webdir: /var/www/html  
+- Tiles-Cache: /var/www/cache, 5GB, 7 Tage
 
 ## Links
 Docker Hub: https://hub.docker.com/r/ffmd/meshviewer-server  
