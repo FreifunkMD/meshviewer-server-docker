@@ -76,7 +76,7 @@ Bei der Regensburger Demo ist der Zugriff auf die Regensburger Tiles-Server gesp
 docker run --name meshviewer-server \
            --detach \
            --rm \
-           -p 8080:80 \
+           -p 8010:80 \
            --env MeshviewerRepo="https://github.com/FreifunkMD/Meshviewer --branch ffmd" \
            --env LoopHookCMD="wget http://gw01.babel.md.freifunk.net:8080/data/meshviewer.json \
                               -O /var/www/html/data/meshviewer.json" \
@@ -97,7 +97,7 @@ docker run --name meshviewer-server \
 ```
 
 ### Map anzeigen
-Nach dem Start ca. 1-2 Minuten warten und dann die Map durch einen Browser-Aufruf von http://xyz:8080 oder http://localhost:8080 anzeigen lassen.
+Nach dem Start ca. 1-2 Minuten warten und dann die Map durch einen Browser-Aufruf von http://xyz:8080 (für MD :8010) oder http://localhost:8080 anzeigen lassen.
 
 ## Sonstiges
 
