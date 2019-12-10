@@ -83,13 +83,13 @@ docker run --name meshviewer-server \
            meshviewer-server
 ```
 
-- Oder ausführen des auf Docker Hub bereitgestellten Containers, mit Verwendung von Port 8080, durch:
+- Oder ausführen des auf Docker Hub bereitgestellten Containers, mit Verwendung von Port 8010, durch:
 
 ```
 docker run --name meshviewer-server \
            --detach \
            --rm \
-           -p 8080:80 \
+           -p 8010:80 \
            --env MeshviewerRepo="https://github.com/FreifunkMD/Meshviewer --branch ffmd" \
            --env LoopHookCMD="wget http://gw01.babel.md.freifunk.net:8080/data/meshviewer.json \
                               -O /var/www/html/data/meshviewer.json" \
