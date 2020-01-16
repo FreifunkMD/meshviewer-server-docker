@@ -21,7 +21,7 @@ In der Docker-Umgebungsvariable `MeshviewerRepo` wird der Link zu dem Git-Repo a
 
 - `LoopHookCMD = ""`  
 In dem Container wird letztlich eine Endlosschleife mit einer Sleep-Time von 1 Minute gestartet.  
-Innerhalb dieser Schleife wird der Hook-Befehl aus der Docker-Umgebungsvariable `LoopHookCMD` zyklisch aufgerufen.  
+Innerhalb dieser Schleife wird eine Hook-Befehlsfolge aus der Docker-Umgebungsvariable `LoopHookCMD` zyklisch aufgerufen.  
 Mittels `LoopHookCMD` könnte z.B. die `meshviewer.json` eigenständig und zyklisch selber durch den Meshviewer-Server geladen und in dem Ordner `/var/www/html/data/` abgelegt werden. Der Meshviewer-Server könnte dann alleinig allen Content aus einer Hand ausliefern.  
 Hierdurch erspart man sich, wegen CORS-Fehlern, zusätzlichen Konfigurationsaufwand bezüglich Access-Control-Allow-Origin beim Reverse-Proxy.
 
@@ -76,7 +76,7 @@ Bei der Regensburger Demo ist der Zugriff auf die Regensburger Tiles-Server gesp
 docker run --name meshviewer-server \
            --detach \
            --rm \
-           -p 8010:80 \
+           -p 8080:80 \
            --env MeshviewerRepo="https://github.com/FreifunkMD/Meshviewer --branch ffmd" \
            --env LoopHookCMD="wget http://gw01.babel.md.freifunk.net:8080/data/meshviewer.json \
                               -O /var/www/html/data/meshviewer.json" \
@@ -89,7 +89,7 @@ docker run --name meshviewer-server \
 docker run --name meshviewer-server \
            --detach \
            --rm \
-           -p 8010:80 \
+           -p 8080:80 \
            --env MeshviewerRepo="https://github.com/FreifunkMD/Meshviewer --branch ffmd" \
            --env LoopHookCMD="wget http://gw01.babel.md.freifunk.net:8080/data/meshviewer.json \
                               -O /var/www/html/data/meshviewer.json" \
@@ -97,7 +97,7 @@ docker run --name meshviewer-server \
 ```
 
 ### Map anzeigen
-Nach dem Start ca. 1-2 Minuten warten und dann die Map durch einen Browser-Aufruf von http://xyz:8080 (für MD :8010) oder http://localhost:8080 anzeigen lassen.
+Nach dem Start ca. 1-2 Minuten warten und dann die Map durch einen Browser-Aufruf von http://xyz:8080 oder http://localhost:8080 anzeigen lassen.
 
 ## Sonstiges
 
