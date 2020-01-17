@@ -9,8 +9,11 @@ EXPOSE 80
 
 RUN apt update \
     && apt install -y --no-install-recommends \
+           unattended-upgrades \
+           ca-certificates \
            nginx \
-           git
+           git \
+           wget
 
 COPY nginx-site.default /etc/nginx/sites-available/default
 
