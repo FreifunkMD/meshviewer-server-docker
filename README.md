@@ -49,7 +49,7 @@ docker build -t meshviewer-server .
 ### Container ausführen
 
 #### Beispiel: Regensburger Map (default Beispielkonfiguration)
-- Ausführen des lokal gebauten Containers, mit Verwendung von Port 8080, durch:
+- Ausführen des lokal gebauten Containers, unter Verwendung von Port 8080, durch:
 
 ```
 docker run --name meshviewer-server \
@@ -73,7 +73,7 @@ Achtung:
 Bei der Regensburger Demo ist der Zugriff auf die Regensburger Tiles-Server gesperrt.
 
 #### Beispiel: Magdeburger Babel Map (individuell)
-- Ausführen des lokal gebauten Containers, mit Verwendung von Port 8080, durch:
+- Ausführen des lokal gebauten Containers, unter Verwendung von Port 8080, durch:
 
 ```
 docker run --name meshviewer-server \
@@ -86,7 +86,7 @@ docker run --name meshviewer-server \
            meshviewer-server
 ```
 
-- Oder ausführen des auf Docker Hub bereitgestellten Containers, mit Verwendung von Port 8010, durch:
+- Oder ausführen des auf Docker Hub bereitgestellten Containers, unter Verwendung von Port 8080, durch:
 
 ```
 docker run --name meshviewer-server \
