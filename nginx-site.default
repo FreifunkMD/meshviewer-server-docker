@@ -3,9 +3,9 @@ server_tokens off;
 proxy_cache_path  /var/www/cache levels=1:2 keys_zone=osm-backend-cache:8m max_size=5g inactive=7d;
 
 upstream osm_backend {
-  server  a.tile.openstreetmap.org;
-  server  b.tile.openstreetmap.org;
-  server  c.tile.openstreetmap.org;
+  server  a.tile.openstreetmap.de;
+  server  b.tile.openstreetmap.de;
+  server  c.tile.openstreetmap.de;
 }
 
 server {
