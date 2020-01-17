@@ -13,11 +13,11 @@ Der Container kann zusätzlich als Tiles-Server verwendet werden. Der Container 
 Der Meshviewer-Server liefert seinen Content über HTTP aus un sollte immer hinter einem Reverse-Proxy betrieben werden.  
 
 ## Docker-Umgebungsvariablen
-Die default Dockerfile-Umgebungsvariablen sind für die Regensburger Map ausgelegt.  
-Die Umgebungsvariablen können jedoch bei dem Starten des Docker-Containers individuell mittels `--env` angepasst werden (siehe Magdeburger Anwendungsbeispiele weiter unten).
+Die default Dockerfile-Umgebungsvariablen sind beispielhaft für die Regensburger Map ausgelegt.  
+Die Umgebungsvariablen können jedoch bei dem Starten des Docker-Containers individuell mittels `--env` angepasst/überschrieben werden (siehe Magdeburger Anwendungsbeispiele weiter unten).
 
 - `MeshviewerRepo = "https://github.com/ffrgb/meshviewer.git --branch develop"`  
-In der Docker-Umgebungsvariable `MeshviewerRepo` wird der Link zu dem Git-Repo angegeben, in welchem der zu verwendende Meshviewer enthalten ist. Optional kann der zu nutzende Git-Branch mit angegeben werden.
+In der Docker-Umgebungsvariable `MeshviewerRepo` wird der Link zu dem Git-Repo angegeben, in welchem eure Meshviewer-Konfiguration enthalten ist. Optional kann der zu nutzende Git-Branch mit angegeben werden.
 
 - `LoopHookCMD = ""`  
 In dem Container wird letztlich eine Endlosschleife mit einer Sleep-Time von 1 Minute gestartet.  
@@ -26,7 +26,7 @@ Mittels `LoopHookCMD` könnte z.B. die `meshviewer.json` eigenständig und zykli
 Hierdurch erspart man sich, wegen CORS-Fehlern, zusätzlichen Konfigurationsaufwand bezüglich Access-Control-Allow-Origin beim Reverse-Proxy.
 
 ## Tiles-Proxy
- - Soll der Container als Tiles-Proxy der OpenStreetMap.org-Server fungieren, dann muß in der meshviewer-Konfiguration für den Tiles-Server-Link folgender Eintrag verwendet werden:
+ - Soll der Container als Tiles-Proxy der OpenStreetMap.org-Server fungieren, dann muß in der Meshviewer-Konfiguration `(config.js)` für den Tiles-Server-Link folgender Eintrag verwendet werden:
 
 ```
 'mapLayers': [
@@ -41,11 +41,14 @@ Hierdurch erspart man sich, wegen CORS-Fehlern, zusätzlichen Konfigurationsaufw
 ## Anwenden
 ### Image lokal bauen
 
-`docker build -t meshviewer-server .`
+```
+git clone https://github.com/FreifunkMD/meshviewer-server-docker.git .
+docker build -t meshviewer-server .
+```
 
 ### Container ausführen
 
-#### Beispiel: Regensburger Map (default)
+#### Beispiel: Regensburger Map (default Beispielkonfiguration)
 - Ausführen des lokal gebauten Containers, mit Verwendung von Port 8080, durch:
 
 ```
