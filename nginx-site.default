@@ -25,7 +25,10 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X_FORWARDED_PROTO http;
     proxy_set_header Host $http_host;
+
     proxy_cache osm-backend-cache;
+    proxy_hide_header Set-Cookie;
+    proxy_ignore_headers Set-Cookie;
     proxy_cache_valid  200 302  7d;
     proxy_cache_valid  404      1m;
     proxy_redirect off;
