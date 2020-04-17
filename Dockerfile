@@ -13,7 +13,8 @@ RUN apt update \
            ca-certificates \
            nginx \
            git \
-           wget
+           wget \
+           curl
 
 COPY nginx-site.default /etc/nginx/sites-available/default
 
