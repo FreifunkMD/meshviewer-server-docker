@@ -81,7 +81,7 @@ docker run --name meshviewer-server \
            --rm \
            -p 8080:80 \
            --env MeshviewerRepo="https://github.com/FreifunkMD/Meshviewer --branch ffmd" \
-           --env LoopHookCMD="wget http://gw01.babel.md.freifunk.net:8080/data/meshviewer.json \
+           --env LoopHookCMD="wget https://map.md.freifunk.net/data/meshviewer.json \
                               -O /var/www/html/data/meshviewer.json" \
            meshviewer-server
 ```
@@ -94,7 +94,7 @@ docker run --name meshviewer-server \
            --rm \
            -p 8080:80 \
            --env MeshviewerRepo="https://github.com/FreifunkMD/Meshviewer --branch ffmd" \
-           --env LoopHookCMD="wget http://gw01.babel.md.freifunk.net:8080/data/meshviewer.json \
+           --env LoopHookCMD="wget https://map.md.freifunk.net/data/meshviewer.json \
                               -O /var/www/html/data/meshviewer.json" \
            ffmd/meshviewer-server:latest
 ```
