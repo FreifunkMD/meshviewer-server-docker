@@ -4,7 +4,7 @@ Durch das Dockerfile wird ein generischer "All in One" Meshviewer-Server bereitg
 
 Der Container stellt in der Default-Konfiguration die Regensburger Map bereit.  
 
-Durch einen individuell angepassten Docker-Aufruf kann jedoch jeglicher Clone des [Regensburger Meshviewer-GitRepos](https://github.com/ffrgb/meshviewer) eingebunden werden.  
+Durch einen individuell angepassten Docker-Aufruf kann jedoch jeglicher Fork des [Regensburger Meshviewer-GitRepos](https://github.com/ffrgb/meshviewer) eingebunden werden.  
 
 Der Container aktualisiert bei jedem Start per `apt` alle System-Packages. Gefolgt wird ein Meshviewer-GitRepo in das Container-interne Verzeichnis `/meshviewer` geklont. Mit `yarn gulp` wird der Meshviewer automatisch gebaut und über einen Webserver (nginx) bereitgestellt. Es handelt sich um einen reinen Wegwerf-Container. Es werden keine Mounts oder Volumes verwendet.
 
